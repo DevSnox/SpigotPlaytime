@@ -1,0 +1,7 @@
+name: VaroxTime
+version: 1.0
+author: DevSnox
+main: me.devsnox.varoxtime.VaroxTime
+commands:
+  playtime:
+    aliases: [pt, spielstunden, st, varoxtime, vt]
