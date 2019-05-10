@@ -1,5 +1,5 @@
 name: SpigotPlayTime
-version: "0.2-RELEASE"
+version: "0.3-SNAPSHOT"
 author: DevSnox
 main: me.devsnox.playtime.PlayTime
 commands:
