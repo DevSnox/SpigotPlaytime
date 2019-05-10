@@ -8,7 +8,9 @@ public enum Messages {
     PREFIX,
     PLAYTIME,
     PLAYTIME_OTHER,
-    ERROR_UNKOWN_PLAYER;
+    ERROR_UNKOWN_PLAYER,
+    ERROR_ONLY_PLAYERS,
+    ERROR_COMMAND_FORMAT_INVALID;
 
 
     private final Map<Messages, String> messages;

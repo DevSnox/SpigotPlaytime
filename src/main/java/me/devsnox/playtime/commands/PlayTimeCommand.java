@@ -10,6 +10,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Copyright by DevSnox
  * E-Mail: me.devsnox@gmail.com
@@ -40,56 +42,52 @@ public class PlayTimeCommand implements CommandExecutor {
             }
         }
 
-        if (!(sender instanceof Player)) return false;
-
         if(args.length == 0) {
-            long ms = this.timeManager.getPlayedTime(((Player) sender).getUniqueId()).getTime();
-
-            int SECOND = 1000;
-            int MINUTE = 60 * SECOND;
-            int HOUR = 60 * MINUTE;
-
-            StringBuffer text = new StringBuffer("§6§lDu hast eine Spielzeit von §d§l");
-            if (ms > HOUR) {
-                text.append(ms / HOUR).append(" §6§lStunden und §d§l");
-                ms %= HOUR;
-            }
-            if (ms > MINUTE) {
-                text.append(ms / MINUTE).append(" §6§lMinuten.");
+            if(!(sender instanceof Player)) {
+                sender.sendMessage(Messages.ERROR_ONLY_PLAYERS.asString());
+                return true;
             }
 
-            sender.sendMessage(Messages.PLAYTIME.asString());
+            long millis = this.timeManager.getPlayedTime(((Player) sender).getUniqueId()).getTime();
+
+            sender.sendMessage(this.replaceValues(Messages.PLAYTIME.asString(), millis));
 
             return true;
+        } else if (args.length == 1) {
+            if(sender.hasPermission("varoxtime.playtime.other")) {
+                if(Bukkit.getOfflinePlayer(args[0]) != null) {
+                    if(this.timeManager.exists(Bukkit.getOfflinePlayer(args[0]).getUniqueId())) {
+                        long millis = this.timeManager.getPlayedTime(Bukkit.getOfflinePlayer(args[0]).getUniqueId()).getTime();
+
+                        sender.sendMessage(this.replaceValues(Messages.PLAYTIME_OTHER.asString(), millis));
+                    } else {
+                        sender.sendMessage(Messages.ERROR_UNKOWN_PLAYER.asString());
+                    }
+                }
+            }
+        } else {
+            sender.sendMessage(Messages.ERROR_COMMAND_FORMAT_INVALID.asString());
         }
 
-        if(sender.hasPermission("varoxtime.playtime.other"))
+        return false;
+    }
 
-        if(Bukkit.getOfflinePlayer(args[0]) != null) {
-            if(this.timeManager.exists(Bukkit.getOfflinePlayer(args[0]).getUniqueId())) {
-                long ms = this.timeManager.getPlayedTime(Bukkit.getOfflinePlayer(args[0]).getUniqueId()).getTime();
 
-                int SECOND = 1000;
-                int MINUTE = 60 * SECOND;
-                int HOUR = 60 * MINUTE;
+    private String replaceValues(String input, long milliseconds) {
 
-                StringBuffer text = new StringBuffer("§6§l" + args[0] + " hat eine Spielzeit von §d§l");
-                if (ms > HOUR) {
-                    text.append(ms / HOUR).append(" §6§lStunden und §d§l");
-                    ms %= HOUR;
-                } else {
-                    text.append(ms / HOUR).append(" §6§lStunden und §d§l");
-                }
-                if (ms > MINUTE) {
-                    text.append(ms / MINUTE).append(" §6§lMinuten.");
-                } else {
-                    text.append(0).append(" §6§lMinuten.");
-                }
-                sender.sendMessage(Messages.PLAYTIME_OTHER.asString());
-            } else {
-                sender.sendMessage(Messages.ERROR_UNKOWN_PLAYER.asString());
+        TimeUnit[] timeUnits = {TimeUnit.DAYS, TimeUnit.HOURS, TimeUnit.MINUTES, TimeUnit.SECONDS};
+
+        for(TimeUnit timeUnit : timeUnits) {
+            String formatedName = timeUnit.toString().toLowerCase();
+            if(input.contains(formatedName)) {
+                long value = timeUnit.convert(milliseconds, TimeUnit.MILLISECONDS);
+
+                milliseconds = milliseconds - TimeUnit.MILLISECONDS.convert(value, timeUnit);
+
+                input = input.replaceFirst("%" + formatedName + "%", String.valueOf(value));
             }
         }
-        return false;
+
+        return input;
     }
 }
