@@ -25,6 +25,9 @@ public class PlayTime extends JavaPlugin {
     public void onEnable() {
         this.timeManager = new TimeManager(this);
         this.timeManager.startup();
+
+        this.loadConfiguration();
+        this.register();
     }
 
     @Override
@@ -33,6 +36,8 @@ public class PlayTime extends JavaPlugin {
     }
 
     private void loadConfiguration() {
+        this.saveResource("messages.yml", false);
+
         final YamlConfiguration configuration = YamlConfiguration.loadConfiguration(
                 new File(this.getDataFolder() + File.separator + "config.yml"));
 
