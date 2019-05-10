@@ -1,6 +1,6 @@
 package me.devsnox.playtime.listeners;
 
-import me.devsnox.playtime.varoxtime.TimeManager;
+import me.devsnox.playtime.playtime.TimeManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

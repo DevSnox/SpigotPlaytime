@@ -1,0 +1,15 @@
+prefix: "&e[&cSpigotPlaytime&e]"
+
+prefix-enabled: true
+
+#Placeholders: %days% %hours% %minutes% %seconds%
+playtime: "&3You already played &e%hours% &ahours &e%minutes% &aminutes &3on this server!"
+
+#Placeholders: %target% %days% %hours% %minutes% %seconds%
+playtime-other: "&e%target% &3already played &e%hours% &ahours &e%minutes% &aminutes &3on this server!"
+
+error-unkown-player: "&cPlayer not found!"
+
+error-only-players: "&cYou must be a player to exeute this command!"
+
+error-command-format-invalid: "&aUse: /playtime or /playtime <name>"

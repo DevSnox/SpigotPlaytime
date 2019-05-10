@@ -1,13 +1,14 @@
 package me.devsnox.playtime.commands;
 
-import me.devsnox.playtime.varoxtime.TimeManager;
-import me.devsnox.playtime.varoxtime.TimePlayer;
+import me.devsnox.playtime.playtime.TimeManager;
+import me.devsnox.playtime.utils.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Copyright by DevSnox
@@ -23,69 +24,56 @@ public class PlayTimeCommand implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof ConsoleCommandSender) {
-            if (args.length == 3 && args[0].equalsIgnoreCase("convert")) {
-                if(Long.valueOf(args[2]) > 0) {
-                    TimePlayer timePlayer = this.timeManager.getPlayedTime(Bukkit.getPlayer(args[1]).getUniqueId());
-                    timePlayer.setTime(Long.valueOf(args[2]) * 60 * 60 * 1000);
-
-                    this.timeManager.getPlayers().replace(timePlayer.getUuid(), timePlayer);
-
-                    return true;
-                }
-            }
-        }
-
-        if (!(sender instanceof Player)) return false;
 
         if(args.length == 0) {
-            long ms = this.timeManager.getPlayedTime(((Player) sender).getUniqueId()).getTime();
-
-            int SECOND = 1000;
-            int MINUTE = 60 * SECOND;
-            int HOUR = 60 * MINUTE;
-
-            StringBuffer text = new StringBuffer("§6§lDu hast eine Spielzeit von §d§l");
-            if (ms > HOUR) {
-                text.append(ms / HOUR).append(" §6§lStunden und §d§l");
-                ms %= HOUR;
-            }
-            if (ms > MINUTE) {
-                text.append(ms / MINUTE).append(" §6§lMinuten.");
+            if(!(sender instanceof Player)) {
+                sender.sendMessage(Messages.ERROR_ONLY_PLAYERS.asString());
+                return true;
             }
 
-            sender.sendMessage(text.toString());
+            if (sender.hasPermission("spigotplaytime.command.playtime")) {
+                long millis = this.timeManager.getPlayedTime(((Player) sender).getUniqueId()).getTime();
+                sender.sendMessage(this.replaceValues(Messages.PLAYTIME.asString(), millis));
+            }
 
             return true;
+        } else if (args.length == 1) {
+            if (sender.hasPermission("varoxtime.playtime.other") ||
+                    sender.hasPermission("spigotplaytime.command.playtime.other")) {
+
+                if(Bukkit.getOfflinePlayer(args[0]) != null) {
+                    if(this.timeManager.exists(Bukkit.getOfflinePlayer(args[0]).getUniqueId())) {
+                        long millis = this.timeManager.getPlayedTime(Bukkit.getOfflinePlayer(args[0]).getUniqueId()).getTime();
+
+                        sender.sendMessage(this.replaceValues(Messages.PLAYTIME_OTHER.asString().replaceAll("%target%", args[0]), millis));
+                    } else {
+                        sender.sendMessage(Messages.ERROR_UNKOWN_PLAYER.asString());
+                    }
+                }
+            }
+        } else {
+            sender.sendMessage(Messages.ERROR_COMMAND_FORMAT_INVALID.asString());
         }
 
-        if(sender.hasPermission("varoxtime.playtime.other"))
+        return false;
+    }
 
-        if(Bukkit.getOfflinePlayer(args[0]) != null) {
-            if(this.timeManager.exists(Bukkit.getOfflinePlayer(args[0]).getUniqueId())) {
-                long ms = this.timeManager.getPlayedTime(Bukkit.getOfflinePlayer(args[0]).getUniqueId()).getTime();
 
-                int SECOND = 1000;
-                int MINUTE = 60 * SECOND;
-                int HOUR = 60 * MINUTE;
+    private String replaceValues(String input, long milliseconds) {
 
-                StringBuffer text = new StringBuffer("§6§l" + args[0] + " hat eine Spielzeit von §d§l");
-                if (ms > HOUR) {
-                    text.append(ms / HOUR).append(" §6§lStunden und §d§l");
-                    ms %= HOUR;
-                } else {
-                    text.append(ms / HOUR).append(" §6§lStunden und §d§l");
-                }
-                if (ms > MINUTE) {
-                    text.append(ms / MINUTE).append(" §6§lMinuten.");
-                } else {
-                    text.append(0).append(" §6§lMinuten.");
-                }
-                sender.sendMessage(text.toString());
-            } else {
-                sender.sendMessage("§cDieser Spieler war noch nie auf dem Server!");
+        TimeUnit[] timeUnits = {TimeUnit.DAYS, TimeUnit.HOURS, TimeUnit.MINUTES, TimeUnit.SECONDS};
+
+        for(TimeUnit timeUnit : timeUnits) {
+            String formatedName = timeUnit.toString().toLowerCase();
+            if(input.contains(formatedName)) {
+                long value = timeUnit.convert(milliseconds, TimeUnit.MILLISECONDS);
+
+                milliseconds = milliseconds - TimeUnit.MILLISECONDS.convert(value, timeUnit);
+
+                input = input.replaceFirst("%" + formatedName + "%", String.valueOf(value));
             }
         }
-        return false;
+
+        return input;
     }
 }
