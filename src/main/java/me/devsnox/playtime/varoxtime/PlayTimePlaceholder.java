@@ -1,4 +1,4 @@
-package me.devsnox.varoxtime.varoxtime;
+package me.devsnox.playtime.varoxtime;
 
 import me.clip.placeholderapi.external.EZPlaceholderHook;
 import org.bukkit.entity.Player;
@@ -11,11 +11,11 @@ import java.util.concurrent.TimeUnit;
  * E-Mail: me.devsnox@gmail.com
  * Skype: DevSnox
  */
-public class VaroxTimePlaceholder extends EZPlaceholderHook {
+public class PlayTimePlaceholder extends EZPlaceholderHook {
 
     private TimeManager timeManager;
 
-    public VaroxTimePlaceholder(Plugin plugin, TimeManager timeManager) {
+    public PlayTimePlaceholder(Plugin plugin, TimeManager timeManager) {
         super(plugin, "varoxtime");
         this.timeManager = timeManager;
     }

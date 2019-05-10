@@ -1,9 +1,9 @@
-package me.devsnox.varoxtime;
+package me.devsnox.playtime;
 
-import me.devsnox.varoxtime.commands.PlayTimeCommand;
-import me.devsnox.varoxtime.listeners.PlayerListener;
-import me.devsnox.varoxtime.varoxtime.TimeManager;
-import me.devsnox.varoxtime.varoxtime.VaroxTimePlaceholder;
+import me.devsnox.playtime.commands.PlayTimeCommand;
+import me.devsnox.playtime.listeners.PlayerListener;
+import me.devsnox.playtime.varoxtime.TimeManager;
+import me.devsnox.playtime.varoxtime.PlayTimePlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  * E-Mail: me.devsnox@gmail.com
  * Skype: DevSnox
  */
-public class VaroxTime extends JavaPlugin {
+public class PlayTime extends JavaPlugin {
 
     private TimeManager timeManager;
 
@@ -27,7 +27,7 @@ public class VaroxTime extends JavaPlugin {
         this.getCommand("playtime").setExecutor(new PlayTimeCommand(this.timeManager));
 
         if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new VaroxTimePlaceholder(this, this.timeManager).hook();
+            new PlayTimePlaceholder(this, this.timeManager).hook();
         }
     }
 

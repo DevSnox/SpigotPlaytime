@@ -1,4 +1,4 @@
-package me.devsnox.varoxtime.varoxtime;
+package me.devsnox.playtime.varoxtime;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,6 @@
-package me.devsnox.varoxtime.connection;
+package me.devsnox.playtime.connection;
 
-import me.devsnox.varoxtime.configuration.ConnectionConfig;
+import me.devsnox.playtime.configuration.ConnectionConfig;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,7 +11,7 @@ import java.sql.SQLException;
  * E-Mail: me.devsnox@gmail.com
  * Skype: DevSnox
  */
-public class VaroxConnection {
+public class SpigotConnection {
     private String host;
     private int port;
     private String database;
@@ -23,7 +23,7 @@ public class VaroxConnection {
     private Connection connection;
 
 
-    public VaroxConnection(String host, int port, String database, String username, String password) {
+    public SpigotConnection(String host, int port, String database, String username, String password) {
         this.host = host;
         this.port = port;
         this.database = database;
@@ -33,7 +33,7 @@ public class VaroxConnection {
         this.syncMySQL = new SyncMySQL(this, connection);
     }
 
-    public VaroxConnection(ConnectionConfig connectionConfig) {
+    public SpigotConnection(ConnectionConfig connectionConfig) {
         this.host = connectionConfig.getHost();
         this.port = connectionConfig.getPort();
         this.database = connectionConfig.getDatabase();

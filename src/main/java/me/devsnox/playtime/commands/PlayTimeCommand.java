@@ -1,7 +1,7 @@
-package me.devsnox.varoxtime.commands;
+package me.devsnox.playtime.commands;
 
-import me.devsnox.varoxtime.varoxtime.TimeManager;
-import me.devsnox.varoxtime.varoxtime.TimePlayer;
+import me.devsnox.playtime.varoxtime.TimeManager;
+import me.devsnox.playtime.varoxtime.TimePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

@@ -1,12 +1,11 @@
-package me.devsnox.varoxtime.varoxtime;
+package me.devsnox.playtime.varoxtime;
 
 import lombok.Getter;
 import lombok.Setter;
-import me.devsnox.varoxtime.configuration.ConnectionConfig;
-import me.devsnox.varoxtime.connection.VaroxConnection;
+import me.devsnox.playtime.configuration.ConnectionConfig;
+import me.devsnox.playtime.connection.SpigotConnection;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.io.File;
 import java.sql.ResultSet;
@@ -25,7 +24,7 @@ public class TimeManager {
     private Plugin plugin;
 
     @Getter @Setter
-    private VaroxConnection varoxConnection;
+    private SpigotConnection connection;
 
     @Getter @Setter
     private HashMap<UUID, TimePlayer> players;
@@ -33,7 +32,7 @@ public class TimeManager {
     public TimeManager(final Plugin plugin) {
         this.plugin = plugin;
 
-        this.varoxConnection = new VaroxConnection(
+        this.connection = new SpigotConnection(
                 new ConnectionConfig("plugins" + File.separator + plugin.getName(),
                         "plugins" + File.separator + plugin.getName() + File.separator + "mysql.yml"));
 
@@ -62,7 +61,7 @@ public class TimeManager {
     public void loadPlayer(UUID uuid) {
         long playtime = 0;
 
-        ResultSet resultSet = this.varoxConnection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='" + uuid + "'");
+        ResultSet resultSet = this.connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='" + uuid + "'");
 
         try {
             if(resultSet.next()) {
@@ -85,12 +84,12 @@ public class TimeManager {
     }
 
     public void savePlayer(UUID uuid) {
-        this.varoxConnection.sync().preparedUpdate("UPDATE varoxtime_players SET TIME='"
+        this.connection.sync().preparedUpdate("UPDATE varoxtime_players SET TIME='"
                 + this.players.get(uuid).getTime() + "' WHERE UUID='" + uuid + "'");
     }
 
     public void createPlayer(UUID uuid)  {
-        this.varoxConnection.sync().preparedUpdate("INSERT INTO varoxtime_players(UUID, TIME) VALUES('" + uuid + "', '" + 0 + "')");
+        this.connection.sync().preparedUpdate("INSERT INTO varoxtime_players(UUID, TIME) VALUES('" + uuid + "', '" + 0 + "')");
     }
 
     public TimePlayer getPlayedTime(UUID uuid) {
@@ -99,7 +98,7 @@ public class TimeManager {
         } else {
             long playtime = 0;
 
-            ResultSet resultSet = this.varoxConnection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='" + uuid + "'");
+            ResultSet resultSet = this.connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='" + uuid + "'");
 
             try {
                 if(resultSet.next()) {
@@ -114,7 +113,7 @@ public class TimeManager {
     }
 
     public boolean exists(UUID uuid) {
-        ResultSet resultSet = this.varoxConnection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='" + uuid + "'");
+        ResultSet resultSet = this.connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='" + uuid + "'");
 
         try {
             if(resultSet.next()) {
@@ -128,12 +127,12 @@ public class TimeManager {
     }
 
     public void startup() {
-        this.varoxConnection.connect();
+        this.connection.connect();
 
-        this.varoxConnection.sync().preparedUpdate("CREATE TABLE IF NOT EXISTS varoxtime_players(UUID varchar(36), TIME bigint)");
+        this.connection.sync().preparedUpdate("CREATE TABLE IF NOT EXISTS varoxtime_players(UUID varchar(36), TIME bigint)");
     }
 
     public void shutdown() {
-        this.varoxConnection.disconnect();
+        this.connection.disconnect();
     }
 }

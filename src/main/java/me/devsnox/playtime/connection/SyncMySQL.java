@@ -1,4 +1,4 @@
-package me.devsnox.varoxtime.connection;
+package me.devsnox.playtime.connection;
 
 import java.sql.*;
 
@@ -10,11 +10,11 @@ import java.sql.*;
 public class SyncMySQL {
 
     private Connection connection;
-    private VaroxConnection varoxConnection;
+    private SpigotConnection spigotConnection;
 
-    public SyncMySQL(VaroxConnection varoxConnection, Connection connection) {
+    public SyncMySQL(SpigotConnection varoxConnection, Connection connection) {
         this.connection = connection;
-        this.varoxConnection = varoxConnection;
+        this.spigotConnection = varoxConnection;
     }
 
     public void update(String statment) {
@@ -81,8 +81,8 @@ public class SyncMySQL {
     private void refresh() {
         try {
             if (!this.connection.isValid(2) || this.connection.getMetaData() == null) {
-                this.varoxConnection.disconnect();
-                this.varoxConnection.connect();
+                this.spigotConnection.disconnect();
+                this.spigotConnection.connect();
             }
         } catch (SQLException e) {
             e.printStackTrace();

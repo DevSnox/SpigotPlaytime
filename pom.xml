@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.devsnox</groupId>
-    <artifactId>varoxtime</artifactId>
-    <version>1.2-RELEASE</version>
+    <artifactId>spigotplaytime</artifactId>
+    <version>0.2-RELEASE</version>
     <build>
         <plugins>
             <plugin>

@@ -1,7 +1,7 @@
-name: VaroxTime
-version: 1.0
+name: SpigotPlayTime
+version: "0.2-RELEASE"
 author: DevSnox
-main: me.devsnox.varoxtime.VaroxTime
+main: me.devsnox.playtime.PlayTime
 commands:
   playtime:
     aliases: [pt, spielstunden, st, varoxtime, vt]

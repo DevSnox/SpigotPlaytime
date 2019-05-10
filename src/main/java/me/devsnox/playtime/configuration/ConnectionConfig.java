@@ -1,4 +1,4 @@
-package me.devsnox.varoxtime.configuration;
+package me.devsnox.playtime.configuration;
 
 import org.bukkit.configuration.file.YamlConfiguration;
 
