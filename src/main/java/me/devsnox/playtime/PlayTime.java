@@ -2,8 +2,8 @@ package me.devsnox.playtime;
 
 import me.devsnox.playtime.commands.PlayTimeCommand;
 import me.devsnox.playtime.listeners.PlayerListener;
-import me.devsnox.playtime.playtime.TimeManager;
 import me.devsnox.playtime.playtime.PlayTimePlaceholder;
+import me.devsnox.playtime.playtime.TimeManager;
 import me.devsnox.playtime.utils.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -57,7 +57,8 @@ public class PlayTime extends JavaPlugin {
         this.getCommand("playtime").setExecutor(new PlayTimeCommand(this.timeManager));
 
         if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new PlayTimePlaceholder(this, this.timeManager).hook();
+            new PlayTimePlaceholder(this, this.timeManager, "varoxtime").hook();
+            new PlayTimePlaceholder(this, this.timeManager, "spigotplaytime").hook();
         }
     }
 }

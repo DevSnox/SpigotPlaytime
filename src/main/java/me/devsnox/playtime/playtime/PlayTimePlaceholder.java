@@ -15,8 +15,8 @@ public class PlayTimePlaceholder extends EZPlaceholderHook {
 
     private TimeManager timeManager;
 
-    public PlayTimePlaceholder(Plugin plugin, TimeManager timeManager) {
-        super(plugin, "varoxtime");
+    public PlayTimePlaceholder(Plugin plugin, TimeManager timeManager, String identifier) {
+        super(plugin, identifier);
         this.timeManager = timeManager;
     }
 
