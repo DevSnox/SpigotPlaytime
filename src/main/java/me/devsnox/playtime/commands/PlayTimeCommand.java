@@ -1,7 +1,7 @@
 package me.devsnox.playtime.commands;
 
-import me.devsnox.playtime.varoxtime.TimeManager;
-import me.devsnox.playtime.varoxtime.TimePlayer;
+import me.devsnox.playtime.playtime.TimeManager;
+import me.devsnox.playtime.playtime.TimePlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,6 +23,9 @@ public class PlayTimeCommand implements CommandExecutor {
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        /*
+            @Deprecated will be removed in the next version
+         */
         if (sender instanceof ConsoleCommandSender) {
             if (args.length == 3 && args[0].equalsIgnoreCase("convert")) {
                 if(Long.valueOf(args[2]) > 0) {

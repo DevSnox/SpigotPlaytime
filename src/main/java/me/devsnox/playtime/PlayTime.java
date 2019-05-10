@@ -2,8 +2,8 @@ package me.devsnox.playtime;
 
 import me.devsnox.playtime.commands.PlayTimeCommand;
 import me.devsnox.playtime.listeners.PlayerListener;
-import me.devsnox.playtime.varoxtime.TimeManager;
-import me.devsnox.playtime.varoxtime.PlayTimePlaceholder;
+import me.devsnox.playtime.playtime.TimeManager;
+import me.devsnox.playtime.playtime.PlayTimePlaceholder;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 

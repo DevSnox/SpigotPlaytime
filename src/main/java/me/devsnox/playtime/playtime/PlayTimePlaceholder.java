@@ -1,4 +1,4 @@
-package me.devsnox.playtime.varoxtime;
+package me.devsnox.playtime.playtime;
 
 import me.clip.placeholderapi.external.EZPlaceholderHook;
 import org.bukkit.entity.Player;
