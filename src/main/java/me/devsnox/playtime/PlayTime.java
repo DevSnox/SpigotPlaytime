@@ -39,11 +39,12 @@ public class PlayTime extends JavaPlugin {
         this.saveResource("messages.yml", false);
 
         final YamlConfiguration configuration = YamlConfiguration.loadConfiguration(
-                new File(this.getDataFolder() + File.separator + "config.yml"));
+                new File(this.getDataFolder() + File.separator + "messages.yml"));
 
         final boolean prefixEnabled = configuration.getBoolean("prefix-enabled");
 
         for (final Messages message : Messages.values()) {
+
             final StringBuilder stringBuilder
                     = new StringBuilder(ChatColor.translateAlternateColorCodes('&', configuration.getString(message.formatedName())));
 
