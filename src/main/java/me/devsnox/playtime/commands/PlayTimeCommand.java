@@ -62,7 +62,7 @@ public class PlayTimeCommand implements CommandExecutor {
                     if(this.timeManager.exists(Bukkit.getOfflinePlayer(args[0]).getUniqueId())) {
                         long millis = this.timeManager.getPlayedTime(Bukkit.getOfflinePlayer(args[0]).getUniqueId()).getTime();
 
-                        sender.sendMessage(this.replaceValues(Messages.PLAYTIME_OTHER.asString(), millis));
+                        sender.sendMessage(this.replaceValues(Messages.PLAYTIME_OTHER.asString().replaceAll("%target%", args[0]), millis));
                     } else {
                         sender.sendMessage(Messages.ERROR_UNKOWN_PLAYER.asString());
                     }

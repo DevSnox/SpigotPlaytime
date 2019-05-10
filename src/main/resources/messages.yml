@@ -5,8 +5,8 @@ prefix-enabled: true
 #Placeholders: %days% %hours% %minutes% %seconds%
 playtime: "You already played %hours% hours %minutes% minutes on this server!"
 
-#Placeholders: %days% %hours% %minutes% %seconds%
-playtimer-other: "&3This player already played &e%hours% &ahours &e%minutes% &aminutes &3on this server!"
+#Placeholders: %target% %days% %hours% %minutes% %seconds%
+playtimer-other: "&3%target% already played &e%hours% &ahours &e%minutes% &aminutes &3on this server!"
 
 error-unkown-player: "&cPlayer not found!"
 
