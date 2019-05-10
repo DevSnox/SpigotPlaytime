@@ -1,12 +1,12 @@
-prefix: "[SpigotPlaytime]"
+prefix: "&e[&cSpigotPlaytime&e]"
 
 prefix-enabled: true
 
 #Placeholders: %days% %hours% %minutes% %seconds%
-playtime: "You already played %hours% hours %minutes% minutes on this server!"
+playtime: "&3You already played &e%hours% &ahours &e%minutes% &aminutes &3on this server!"
 
 #Placeholders: %target% %days% %hours% %minutes% %seconds%
-playtimer-other: "&3%target% already played &e%hours% &ahours &e%minutes% &aminutes &3on this server!"
+playtimer-other: "&e%target% already played &e%hours% &ahours &e%minutes% &aminutes &3on this server!"
 
 error-unkown-player: "&cPlayer not found!"
 
