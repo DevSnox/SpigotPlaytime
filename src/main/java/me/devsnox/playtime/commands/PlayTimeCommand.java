@@ -2,6 +2,7 @@ package me.devsnox.playtime.commands;
 
 import me.devsnox.playtime.playtime.TimeManager;
 import me.devsnox.playtime.playtime.TimePlayer;
+import me.devsnox.playtime.utils.Messages;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -24,7 +25,7 @@ public class PlayTimeCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         /*
-            @Deprecated will be removed in the next version
+            @Deprecated will be removed in the next version (v.0.4)
          */
         if (sender instanceof ConsoleCommandSender) {
             if (args.length == 3 && args[0].equalsIgnoreCase("convert")) {
@@ -57,7 +58,7 @@ public class PlayTimeCommand implements CommandExecutor {
                 text.append(ms / MINUTE).append(" §6§lMinuten.");
             }
 
-            sender.sendMessage(text.toString());
+            sender.sendMessage(Messages.PLAYTIME.asString());
 
             return true;
         }
@@ -84,9 +85,9 @@ public class PlayTimeCommand implements CommandExecutor {
                 } else {
                     text.append(0).append(" §6§lMinuten.");
                 }
-                sender.sendMessage(text.toString());
+                sender.sendMessage(Messages.PLAYTIME_OTHER.asString());
             } else {
-                sender.sendMessage("§cDieser Spieler war noch nie auf dem Server!");
+                sender.sendMessage(Messages.ERROR_UNKOWN_PLAYER.asString());
             }
         }
         return false;
