@@ -48,13 +48,16 @@ public class PlayTimeCommand implements CommandExecutor {
                 return true;
             }
 
-            long millis = this.timeManager.getPlayedTime(((Player) sender).getUniqueId()).getTime();
-
-            sender.sendMessage(this.replaceValues(Messages.PLAYTIME.asString(), millis));
+            if (sender.hasPermission("spigotplaytime.command.playtime")) {
+                long millis = this.timeManager.getPlayedTime(((Player) sender).getUniqueId()).getTime();
+                sender.sendMessage(this.replaceValues(Messages.PLAYTIME.asString(), millis));
+            }
 
             return true;
         } else if (args.length == 1) {
-            if(sender.hasPermission("varoxtime.playtime.other")) {
+            if (sender.hasPermission("varoxtime.playtime.other") ||
+                    sender.hasPermission("spigotplaytime.command.playtime.other")) {
+
                 if(Bukkit.getOfflinePlayer(args[0]) != null) {
                     if(this.timeManager.exists(Bukkit.getOfflinePlayer(args[0]).getUniqueId())) {
                         long millis = this.timeManager.getPlayedTime(Bukkit.getOfflinePlayer(args[0]).getUniqueId()).getTime();
