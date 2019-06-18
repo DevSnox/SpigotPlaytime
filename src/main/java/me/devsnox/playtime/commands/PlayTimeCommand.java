@@ -47,7 +47,7 @@ public class PlayTimeCommand implements CommandExecutor {
 
                         sender.sendMessage(this.replaceValues(Messages.PLAYTIME_OTHER.asString().replaceAll("%target%", args[0]), millis));
                     } else {
-                        sender.sendMessage(Messages.ERROR_UNKOWN_PLAYER.asString());
+                        sender.sendMessage(Messages.ERROR_UNKNOWN_PLAYER.asString());
                     }
                 }
             }
