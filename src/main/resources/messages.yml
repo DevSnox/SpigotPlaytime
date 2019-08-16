@@ -8,7 +8,7 @@ playtime: "&3You already played &e%hours% &ahours &e%minutes% &aminutes &3on thi
 #Placeholders: %target% %days% %hours% %minutes% %seconds%
 playtime-other: "&e%target% &3already played &e%hours% &ahours &e%minutes% &aminutes &3on this server!"
 
-error-unkown-player: "&cPlayer not found!"
+error-unknown-player: "&cPlayer not found!"
 
 error-only-players: "&cYou must be a player to exeute this command!"
 

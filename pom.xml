@@ -6,7 +6,7 @@
 
     <groupId>me.devsnox</groupId>
     <artifactId>spigotplaytime</artifactId>
-    <version>0.3-RELEASE</version>
+    <version>0.3.1-RELEASE</version>
 
     <build>
         <plugins>
