@@ -12,6 +12,7 @@ import java.sql.SQLException;
  * GitHub: https://github.com/DevSnox
  * E-Mail: yasin@dalal.ch
  */
+@Deprecated
 public class SpigotConnection {
     private String host;
     private int port;

@@ -8,6 +8,7 @@ import java.sql.*;
  * GitHub: https://github.com/DevSnox
  * E-Mail: yasin@dalal.ch
  */
+@Deprecated
 public class SyncMySQL {
 
     private Connection connection;
