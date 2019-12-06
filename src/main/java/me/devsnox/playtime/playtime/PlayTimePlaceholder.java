@@ -21,6 +21,8 @@ public class PlayTimePlaceholder extends EZPlaceholderHook {
         this.timeManager = timeManager;
     }
 
+    //TODO: Add support for all available time-units (days, hours, minutes and seconds)
+
     @Override
     public String onPlaceholderRequest(Player player, String identifier) {
         if(identifier.equalsIgnoreCase("time_hours")) {

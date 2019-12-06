@@ -1,9 +1,6 @@
-package me.devsnox.playtime.playtime;
+package me.devsnox.playtime.playtime
 
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.UUID;
+import java.util.*
 
 /**
  * Created by Yasin Dalal
@@ -11,16 +8,5 @@ import java.util.UUID;
  * GitHub: https://github.com/DevSnox
  * E-Mail: yasin@dalal.ch
  */
-public class TimePlayer {
-
-    @Getter @Setter
-    private UUID uuid;
-
-    @Getter @Setter
-    private long time;
-
-    public TimePlayer(UUID uuid, long time) {
-        this.uuid = uuid;
-        this.time = time;
-    }
-}
+data class TimePlayer(val uuid: UUID,
+                 var time: Long)
