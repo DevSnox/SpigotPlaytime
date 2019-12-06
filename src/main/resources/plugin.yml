@@ -4,4 +4,4 @@ author: DevSnox
 main: me.devsnox.playtime.PlayTime
 commands:
   playtime:
-    aliases: [pt, spielstunden, st, varoxtime, vt]
+    aliases: [pt, spielstunden, st]
