@@ -1,70 +1,45 @@
-package me.devsnox.playtime;
+package me.devsnox.playtime
 
-import me.devsnox.playtime.commands.PlayTimeCommand;
-import me.devsnox.playtime.listeners.PlayerListener;
-import me.devsnox.playtime.playtime.PlayTimePlaceholder;
-import me.devsnox.playtime.playtime.TimeManager;
-import me.devsnox.playtime.utils.Messages;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
+import me.devsnox.playtime.commands.PlayTimeCommand
+import me.devsnox.playtime.configuration.ConfigurationHandler
+import me.devsnox.playtime.listeners.PlayerListener
+import me.devsnox.playtime.playtime.PlayTimePlaceholder
+import me.devsnox.playtime.playtime.TimeManager
+import me.devsnox.playtime.utils.Messages
+import org.bukkit.Bukkit
+import org.bukkit.ChatColor
+import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.plugin.java.JavaPlugin
+import java.io.File
 
 /**
  * Copyright by DevSnox
  * E-Mail: me.devsnox@gmail.com
  * Skype: DevSnox
  */
-public class PlayTime extends JavaPlugin {
+class PlayTime : JavaPlugin() {
 
-    private TimeManager timeManager;
+    private val timeManager: TimeManager by lazy { TimeManager(this) }
 
-    @Override
-    public void onEnable() {
-        this.timeManager = new TimeManager(this);
-        this.timeManager.startup();
+    override fun onEnable() {
+        ConfigurationHandler.configurateMessages(this)
 
-        this.loadConfiguration();
-        this.register();
+        timeManager.startup()
+        registerPlaceholderAPI()
+
+        Bukkit.getPluginManager().registerEvents(PlayerListener(timeManager), this)
+
+        getCommand("playtime").executor = PlayTimeCommand(timeManager)
     }
 
-    @Override
-    public void onDisable() {
-        this.timeManager.shutdown();
+    override fun onDisable() {
+        timeManager.shutdown()
     }
 
-    private void loadConfiguration() {
-        this.saveResource("messages.yml", false);
-
-        final YamlConfiguration configuration = YamlConfiguration.loadConfiguration(
-                new File(this.getDataFolder() + File.separator + "messages.yml"));
-
-        final boolean prefixEnabled = configuration.getBoolean("prefix-enabled");
-
-        for (final Messages message : Messages.values()) {
-
-            final StringBuilder stringBuilder
-                    = new StringBuilder(ChatColor.translateAlternateColorCodes('&', configuration.getString(message.formatedName())));
-
-            if (message != Messages.PREFIX && prefixEnabled) {
-                stringBuilder.insert(0, Messages.PREFIX.asString());
-            } else {
-                stringBuilder.append(ChatColor.RESET + " ");
-            }
-
-            Messages.valueOf(message.name()).set(stringBuilder.toString());
-        }
-    }
-
-    private void register() {
-        Bukkit.getPluginManager().registerEvents(new PlayerListener(this.timeManager), this);
-        this.getCommand("playtime").setExecutor(new PlayTimeCommand(this.timeManager));
-
-        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new PlayTimePlaceholder(this, this.timeManager, "varoxtime").hook();
-            new PlayTimePlaceholder(this, this.timeManager, "spigotplaytime").hook();
+    private fun registerPlaceholderAPI() {
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            PlayTimePlaceholder(this, timeManager, "varoxtime").hook()
+            PlayTimePlaceholder(this, timeManager, "spigotplaytime").hook()
         }
     }
 }
