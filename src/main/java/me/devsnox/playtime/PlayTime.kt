@@ -19,9 +19,14 @@ import java.io.File
  */
 class PlayTime : JavaPlugin() {
 
-    private val timeManager: TimeManager by lazy { TimeManager(this) }
+    private val timeManager: TimeManager by lazy {
+        TimeManager(this, ConfigurationHandler.configurateCredentials(this))
+    }
 
     override fun onEnable() {
+        this.saveResource("credentials.yml", false)
+        this.saveResource("messages.yml", false)
+
         ConfigurationHandler.configurateMessages(this)
 
         timeManager.startup()
@@ -39,6 +44,7 @@ class PlayTime : JavaPlugin() {
     private fun registerPlaceholderAPI() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
             PlayTimePlaceholder(this, timeManager, "spigotplaytime").hook()
+            //TODO: Add message if PlaceholderAPI can't be found
         }
     }
 }

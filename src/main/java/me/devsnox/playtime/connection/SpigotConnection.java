@@ -33,13 +33,15 @@ public class SpigotConnection {
         this.syncMySQL = new SyncMySQL(this, connection);
     }
 
-    public SpigotConnection(ConnectionConfig connectionConfig) {
-        this.host = connectionConfig.getHost();
-        this.port = connectionConfig.getPort();
-        this.database = connectionConfig.getDatabase();
-        this.username = connectionConfig.getUsername();
-        this.password = connectionConfig.getPassword();
+    public SpigotConnection(ConnectionConfig config) {
+        this.host = config.getHost();
+        this.port = config.getPort();
+        this.database = config.getDatabase();
+        this.username = config.getUsername();
+        this.password = config.getPassword();
+
         connect();
+
         this.syncMySQL = new SyncMySQL(this, connection);
     }
 

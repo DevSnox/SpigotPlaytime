@@ -23,4 +23,16 @@ object ConfigurationHandler {
             Messages.valueOf(it.name).set(stringBuilder.toString())
         }
     }
+
+    fun configurateCredentials(plugin: Plugin) : ConnectionConfig {
+        val configuration = YamlConfiguration.loadConfiguration(
+                File(plugin.dataFolder.toString() + File.separator + "credentials.yml"))
+
+        return ConnectionConfig(
+                configuration.getString("host"),
+                configuration.getInt("port"),
+                configuration.getString("database"),
+                configuration.getString("username"),
+                configuration.getString("password"))
+    }
 }

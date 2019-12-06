@@ -29,12 +29,11 @@ public class TimeManager {
     @Getter @Setter
     private HashMap<UUID, TimePlayer> players;
 
-    public TimeManager(final Plugin plugin) {
+    public TimeManager(final Plugin plugin, ConnectionConfig connectionConfig) {
         this.plugin = plugin;
 
-        this.connection = new SpigotConnection(
-                new ConnectionConfig("plugins" + File.separator + plugin.getName(),
-                        "plugins" + File.separator + plugin.getName() + File.separator + "mysql.yml"));
+
+        this.connection = new SpigotConnection(connectionConfig);
 
         this.players = new HashMap<>();
 
