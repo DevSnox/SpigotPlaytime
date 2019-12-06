@@ -38,7 +38,6 @@ class PlayTime : JavaPlugin() {
 
     private fun registerPlaceholderAPI() {
         if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            PlayTimePlaceholder(this, timeManager, "varoxtime").hook()
             PlayTimePlaceholder(this, timeManager, "spigotplaytime").hook()
         }
     }
