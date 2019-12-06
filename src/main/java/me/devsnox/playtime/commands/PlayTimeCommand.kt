@@ -35,8 +35,7 @@ class PlayTimeCommand(private val timeManager: TimeManager) : CommandExecutor {
             return true
 
         } else if (args.size == 1) {
-            if (!sender.hasPermission("varoxtime.playtime.other") ||
-                    !sender.hasPermission("spigotplaytime.command.playtime.other")) {
+            if (!sender.hasPermission("spigotplaytime.command.playtime.other")) {
 
                 //TODO: Add no permissions message
 
