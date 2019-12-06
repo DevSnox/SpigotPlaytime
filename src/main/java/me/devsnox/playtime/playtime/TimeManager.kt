@@ -13,6 +13,7 @@ import java.util.*
  * E-Mail: yasin@dalal.ch
  */
 
+//TODO: Change the name of the sql table
 //TODO: Use exposed for database handling
 class TimeManager(plugin: Plugin, connectionConfig: ConnectionConfig?) {
 
