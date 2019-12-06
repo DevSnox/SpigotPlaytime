@@ -9,6 +9,7 @@ import java.util.*
  * E-Mail: yasin@dalal.ch
  */
 enum class Messages {
+
     PREFIX,
     PLAYTIME,
     PLAYTIME_OTHER,
@@ -26,8 +27,8 @@ enum class Messages {
         messages[this] = value
     }
 
-    fun asString(): String? {
-        return messages[this]
+    fun asString(): String {
+        return messages[this].orEmpty()
     }
 
     init {
