@@ -1,7 +1,6 @@
-package me.devsnox.playtime.utils;
+package me.devsnox.playtime.utils
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*
 
 /**
  * Created by Yasin Dalal
@@ -9,8 +8,7 @@ import java.util.Map;
  * GitHub: https://github.com/DevSnox
  * E-Mail: yasin@dalal.ch
  */
-public enum Messages {
-
+enum class Messages {
     PREFIX,
     PLAYTIME,
     PLAYTIME_OTHER,
@@ -18,22 +16,21 @@ public enum Messages {
     ERROR_ONLY_PLAYERS,
     ERROR_COMMAND_FORMAT_INVALID;
 
+    private val messages: MutableMap<Messages, String>
 
-    private final Map<Messages, String> messages;
-
-    Messages() {
-        this.messages = new HashMap<>();
+    fun formatedName(): String {
+        return name.toLowerCase().replace("_".toRegex(), "-")
     }
 
-    public String formatedName() {
-        return this.name().toLowerCase().replaceAll("_", "-");
+    fun set(value: String) {
+        messages[this] = value
     }
 
-    public void set(String value) {
-        this.messages.put(this, value);
+    fun asString(): String? {
+        return messages[this]
     }
 
-    public String asString() {
-        return this.messages.get(this);
+    init {
+        messages = EnumMap(Messages::class.java)
     }
 }
