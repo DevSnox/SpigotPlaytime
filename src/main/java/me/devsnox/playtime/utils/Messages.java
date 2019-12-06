@@ -3,6 +3,12 @@ package me.devsnox.playtime.utils;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Created by Yasin Dalal
+ * Copyright (c) 2019 Yasin Dalal
+ * GitHub: https://github.com/DevSnox
+ * E-Mail: yasin@dalal.ch
+ */
 public enum Messages {
 
     PREFIX,

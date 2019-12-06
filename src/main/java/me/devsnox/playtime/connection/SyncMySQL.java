@@ -3,9 +3,10 @@ package me.devsnox.playtime.connection;
 import java.sql.*;
 
 /**
- * Copyright by DevSnox
- * E-Mail: me.devsnox@gmail.com
- * Skype: DevSnox
+ * Created by Yasin Dalal
+ * Copyright (c) 2017-2019 Yasin Dalal
+ * GitHub: https://github.com/DevSnox
+ * E-Mail: yasin@dalal.ch
  */
 public class SyncMySQL {
 

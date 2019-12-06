@@ -6,6 +6,12 @@ import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.Plugin
 import java.io.File
 
+/**
+ * Created by Yasin Dalal on 6. Dez. 2019
+ * Copyright (c) 2019 Yasin Dalal
+ * GitHub: https://github.com/DevSnox
+ * E-Mail: yasin@dalal.ch
+ */
 object ConfigurationHandler {
 
     fun configurateMessages(plugin: Plugin) {

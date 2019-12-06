@@ -8,9 +8,10 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
- * Copyright by DevSnox
- * E-Mail: me.devsnox@gmail.com
- * Skype: DevSnox
+ * Created by Yasin Dalal
+ * Copyright (c) 2017-2019 Yasin Dalal
+ * GitHub: https://github.com/DevSnox
+ * E-Mail: yasin@dalal.ch
  */
 public class PlayerListener implements Listener {
 

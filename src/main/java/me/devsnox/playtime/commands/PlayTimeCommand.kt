@@ -10,9 +10,10 @@ import org.bukkit.entity.Player
 import java.util.concurrent.TimeUnit
 
 /**
- * Copyright by DevSnox
- * E-Mail: me.devsnox@gmail.com
- * Skype: DevSnox
+ * Created by Yasin Dalal
+ * Copyright (c) 2017-2019 Yasin Dalal
+ * GitHub: https://github.com/DevSnox
+ * E-Mail: yasin@dalal.ch
  */
 class PlayTimeCommand(private val timeManager: TimeManager) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
