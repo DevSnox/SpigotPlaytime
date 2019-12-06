@@ -1,17 +1,10 @@
-package me.devsnox.playtime.playtime;
+package me.devsnox.playtime.playtime
 
-import lombok.Getter;
-import lombok.Setter;
-import me.devsnox.playtime.configuration.ConnectionConfig;
-import me.devsnox.playtime.connection.SpigotConnection;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
-
-import java.io.File;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.UUID;
+import me.devsnox.playtime.configuration.ConnectionConfig
+import me.devsnox.playtime.connection.SpigotConnection
+import org.bukkit.plugin.Plugin
+import org.bukkit.scheduler.BukkitRunnable
+import java.util.*
 
 /**
  * Created by Yasin Dalal
@@ -19,120 +12,70 @@ import java.util.UUID;
  * GitHub: https://github.com/DevSnox
  * E-Mail: yasin@dalal.ch
  */
-public class TimeManager {
 
-    @Getter @Setter
-    private Plugin plugin;
+//TODO: Use exposed for database handling
+class TimeManager(plugin: Plugin, connectionConfig: ConnectionConfig?) {
 
-    @Getter @Setter
-    private SpigotConnection connection;
+    private val connection: SpigotConnection = SpigotConnection(connectionConfig)
+    private val players: MutableMap<UUID, TimePlayer> = mutableMapOf()
 
-    @Getter @Setter
-    private HashMap<UUID, TimePlayer> players;
-
-    public TimeManager(final Plugin plugin, ConnectionConfig connectionConfig) {
-        this.plugin = plugin;
-
-
-        this.connection = new SpigotConnection(connectionConfig);
-
-        this.players = new HashMap<>();
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for (TimePlayer timePlayer : players.values()) {
-                    timePlayer.setTime(timePlayer.getTime() + 5000L);
-                }
+    init {
+        object : BukkitRunnable() {
+            override fun run() {
+                for (timePlayer in players.values)
+                    timePlayer.time = timePlayer.time + 5000L
             }
-        }.runTaskTimerAsynchronously(this.plugin, 0L, 5L * 20L);
-
-        new BukkitRunnable() {
-
-            @Override
-            public void run() {
-                for(UUID uuid : players.keySet()) {
-                    savePlayer(uuid);
-                }
+        }.runTaskTimerAsynchronously(plugin, 0L, 5L * 20L)
+        object : BukkitRunnable() {
+            override fun run() {
+                for (uuid in players.keys) savePlayer(uuid)
             }
-        }.runTaskTimerAsynchronously(this.plugin, 20L * 60L, 20L * 60L);
+        }.runTaskTimerAsynchronously(plugin, 20L * 60L, 20L * 60L)
     }
 
-    public void loadPlayer(UUID uuid) {
-        long playtime = 0;
-
-        ResultSet resultSet = this.connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='" + uuid + "'");
-
-        try {
-            if(resultSet.next()) {
-                playtime = resultSet.getLong("TIME");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        this.players.put(uuid, new TimePlayer(uuid, playtime));
+    fun loadPlayer(uuid: UUID) {
+        players[uuid] = this.getPlayedTime(uuid)
     }
 
-    public void unloadPlayer(UUID uuid) {
-        this.savePlayer(uuid);
-        this.players.remove(uuid);
+    fun unloadPlayer(uuid: UUID) {
+        savePlayer(uuid)
+        players -= uuid
     }
 
-    public boolean isLoaded(UUID uuid) {
-        return this.players.containsKey(uuid);
+    fun isLoaded(uuid: UUID?): Boolean {
+        return players.containsKey(uuid)
     }
 
-    public void savePlayer(UUID uuid) {
-        this.connection.sync().preparedUpdate("UPDATE varoxtime_players SET TIME='"
-                + this.players.get(uuid).getTime() + "' WHERE UUID='" + uuid + "'");
+    fun savePlayer(uuid: UUID) {
+        connection.sync().preparedUpdate("UPDATE varoxtime_players SET TIME='"
+                + players[uuid]?.time + "' WHERE UUID='" + uuid + "'")
     }
 
-    public void createPlayer(UUID uuid)  {
-        this.connection.sync().preparedUpdate("INSERT INTO varoxtime_players(UUID, TIME) VALUES('" + uuid + "', '" + 0 + "')");
+    fun createPlayer(uuid: UUID) {
+        connection.sync().preparedUpdate("INSERT INTO varoxtime_players(UUID, TIME) VALUES('$uuid', '0')")
     }
 
-    public TimePlayer getPlayedTime(UUID uuid) {
-        if(this.players.containsKey(uuid)) {
-            return this.players.get(uuid);
-        } else {
-            long playtime = 0;
-
-            ResultSet resultSet = this.connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='" + uuid + "'");
-
-            try {
-                if(resultSet.next()) {
-                    playtime = resultSet.getLong("TIME");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-
-            return new TimePlayer(uuid, playtime);
-        }
+    fun getPlayedTime(uuid: UUID): TimePlayer = if (players.containsKey(uuid)) {
+        players.getValue(uuid)
+    } else {
+        var playtime: Long = 0
+        val resultSet = connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='$uuid'")
+        if (resultSet.next()) playtime = resultSet.getLong("TIME")
+        TimePlayer(uuid, playtime)
     }
 
-    public boolean exists(UUID uuid) {
-        ResultSet resultSet = this.connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='" + uuid + "'");
-
-        try {
-            if(resultSet.next()) {
-                return true;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        return false;
+    fun exists(uuid: UUID): Boolean {
+        val resultSet = connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='$uuid'")
+        if (resultSet.next()) return true
+        return false
     }
 
-    public void startup() {
-        this.connection.connect();
-
-        this.connection.sync().preparedUpdate("CREATE TABLE IF NOT EXISTS varoxtime_players(UUID varchar(36), TIME bigint)");
+    fun startup() {
+        connection.connect()
+        connection.sync().preparedUpdate("CREATE TABLE IF NOT EXISTS varoxtime_players(UUID varchar(36), TIME bigint)")
     }
 
-    public void shutdown() {
-        this.connection.disconnect();
+    fun shutdown() {
+        connection.disconnect()
     }
 }

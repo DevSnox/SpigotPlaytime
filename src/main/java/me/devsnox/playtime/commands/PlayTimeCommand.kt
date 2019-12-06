@@ -18,48 +18,50 @@ import java.util.concurrent.TimeUnit
 class PlayTimeCommand(private val timeManager: TimeManager) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
 
-        if (args.isEmpty()) {
+        when {
+            args.isEmpty() -> {
 
-            if (sender !is Player) {
-                sender.sendMessage(Messages.ERROR_ONLY_PLAYERS.asString())
-                return true
-            }
+                if (sender !is Player) {
+                    sender.sendMessage(Messages.ERROR_ONLY_PLAYERS.asString())
+                    return true
+                }
 
-            if (!sender.hasPermission("spigotplaytime.command.playtime")) {
-                //TODO: Add no permissions message
-                return true
-            }
+                if (!sender.hasPermission("spigotplaytime.command.playtime")) {
+                    //TODO: Add no permissions message
+                    return true
+                }
 
-            sender.sendMessage(replaceValues(Messages.PLAYTIME.asString(),
+                sender.sendMessage(replaceValues(Messages.PLAYTIME.asString(),
                         timeManager.getPlayedTime(sender.uniqueId).time))
 
-            return true
+                return true
 
-        } else if (args.size == 1) {
-            if (!sender.hasPermission("spigotplaytime.command.playtime.other")) {
+            }
+            args.size == 1 -> {
+                if (!sender.hasPermission("spigotplaytime.command.playtime.other")) {
 
-                //TODO: Add no permissions message
+                    //TODO: Add no permissions message
+
+                    return true
+                }
+
+                //TODO: Better solution for getting the targets UUID
+
+                if (timeManager.exists(Bukkit.getOfflinePlayer(args[0]).uniqueId)) {
+                    sender.sendMessage(replaceValues(Messages.PLAYTIME_OTHER.asString()
+                            .replace("%target%".toRegex(), args[0]),
+                            timeManager.getPlayedTime(Bukkit.getOfflinePlayer(args[0]).uniqueId).time))
+                } else {
+                    sender.sendMessage(Messages.ERROR_UNKNOWN_PLAYER.asString())
+                }
 
                 return true
             }
-
-            //TODO: Better solution for getting the targets UUID
-
-            if (timeManager.exists(Bukkit.getOfflinePlayer(args[0]).uniqueId)) {
-                sender.sendMessage(replaceValues(Messages.PLAYTIME_OTHER.asString()
-                        .replace("%target%".toRegex(), args[0]),
-                        timeManager.getPlayedTime(Bukkit.getOfflinePlayer(args[0]).uniqueId).time))
-            } else {
-                sender.sendMessage(Messages.ERROR_UNKNOWN_PLAYER.asString())
+            else -> {
+                sender.sendMessage(Messages.ERROR_COMMAND_FORMAT_INVALID.asString())
+                return true
             }
-
-            return true
-        } else {
-            sender.sendMessage(Messages.ERROR_COMMAND_FORMAT_INVALID.asString())
-            return true
         }
-
-        return false
     }
 
     private fun replaceValues(input: String, milliseconds: Long): String {
