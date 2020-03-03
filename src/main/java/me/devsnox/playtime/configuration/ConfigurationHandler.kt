@@ -30,7 +30,7 @@ object ConfigurationHandler {
         }
     }
 
-    fun configurateCredentials(plugin: Plugin) : ConnectionConfig {
+    fun configurateCredentials(plugin: Plugin): ConnectionConfig {
         val configuration = YamlConfiguration.loadConfiguration(
                 File(plugin.dataFolder.toString() + File.separator + "credentials.yml"))
 

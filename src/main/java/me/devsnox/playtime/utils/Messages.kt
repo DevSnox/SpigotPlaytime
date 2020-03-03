@@ -1,7 +1,5 @@
 package me.devsnox.playtime.utils
 
-import java.util.*
-
 /**
  * Created by Yasin Dalal
  * Copyright (c) 2019 Yasin Dalal
@@ -17,7 +15,7 @@ enum class Messages {
     ERROR_ONLY_PLAYERS,
     ERROR_COMMAND_FORMAT_INVALID;
 
-    private val messages: MutableMap<Messages, String>
+    private val messages: MutableMap<Messages, String> = mutableMapOf()
 
     fun formatedName(): String {
         return name.toLowerCase().replace("_".toRegex(), "-")
@@ -29,9 +27,5 @@ enum class Messages {
 
     fun asString(): String {
         return messages[this].orEmpty()
-    }
-
-    init {
-        messages = EnumMap(Messages::class.java)
     }
 }

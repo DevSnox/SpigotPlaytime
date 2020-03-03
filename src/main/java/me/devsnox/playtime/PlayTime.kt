@@ -5,12 +5,8 @@ import me.devsnox.playtime.configuration.ConfigurationHandler
 import me.devsnox.playtime.listeners.PlayerListener
 import me.devsnox.playtime.playtime.PlayTimePlaceholder
 import me.devsnox.playtime.playtime.TimeManager
-import me.devsnox.playtime.utils.Messages
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
-import org.bukkit.configuration.file.YamlConfiguration
 import org.bukkit.plugin.java.JavaPlugin
-import java.io.File
 
 /**
  * Created by Yasin Dalal
