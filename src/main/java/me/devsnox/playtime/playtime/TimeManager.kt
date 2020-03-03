@@ -6,6 +6,7 @@ import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.*
 
+
 /**
  * Created by Yasin Dalal
  * Copyright (c) 2017-2019 Yasin Dalal
@@ -15,7 +16,7 @@ import java.util.*
 
 //TODO: Change the name of the sql table
 //TODO: Use exposed for database handling
-class TimeManager(plugin: Plugin, connectionConfig: ConnectionConfig?) {
+class TimeManager(plugin: Plugin, connectionConfig: ConnectionConfig) {
 
     private val connection: SpigotConnection = SpigotConnection(connectionConfig)
     private val players: MutableMap<UUID, TimePlayer> = mutableMapOf()
@@ -43,7 +44,7 @@ class TimeManager(plugin: Plugin, connectionConfig: ConnectionConfig?) {
         players -= uuid
     }
 
-    fun isLoaded(uuid: UUID?): Boolean {
+    fun isLoaded(uuid: UUID): Boolean {
         return players.containsKey(uuid)
     }
 
@@ -56,18 +57,28 @@ class TimeManager(plugin: Plugin, connectionConfig: ConnectionConfig?) {
         connection.sync().preparedUpdate("INSERT INTO varoxtime_players(UUID, TIME) VALUES('$uuid', '0')")
     }
 
-    fun getPlayedTime(uuid: UUID): TimePlayer = if (players.containsKey(uuid)) {
-        players.getValue(uuid)
-    } else {
-        var playtime: Long = 0
-        val resultSet = connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='$uuid'")
-        if (resultSet.next()) playtime = resultSet.getLong("TIME")
-        TimePlayer(uuid, playtime)
+    fun getPlayedTime(uuid: UUID): TimePlayer {
+        return if (players.containsKey(uuid)) {
+            players[uuid]!!
+        } else {
+            var playtime: Long = 0
+            val resultSet = connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='$uuid'")
+
+            if (resultSet != null) {
+                if (resultSet.next()) playtime = resultSet.getLong("TIME")
+            }
+
+            return TimePlayer(uuid, playtime)
+        }
     }
 
     fun exists(uuid: UUID): Boolean {
         val resultSet = connection.sync().query("SELECT TIME FROM varoxtime_players WHERE UUID='$uuid'")
-        if (resultSet.next()) return true
+
+        if (resultSet != null) {
+            if (resultSet.next()) return true
+        }
+
         return false
     }
 

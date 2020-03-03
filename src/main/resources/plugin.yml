@@ -2,6 +2,7 @@ name: SpigotPlaytime
 version: "0.3.2-DEVELOPMENT"
 author: DevSnox
 main: me.devsnox.playtime.PlayTime
+depends: [KLibs]
 commands:
   playtime:
     aliases: [pt, spielstunden, st]
