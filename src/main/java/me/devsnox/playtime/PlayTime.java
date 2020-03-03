@@ -62,9 +62,9 @@ public class PlayTime extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerListener(this.timeManager), this);
         this.getCommand("playtime").setExecutor(new PlayTimeCommand(this.timeManager));
 
-        if(Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new PlayTimePlaceholder(this, this.timeManager, "varoxtime").hook();
-            new PlayTimePlaceholder(this, this.timeManager, "spigotplaytime").hook();
+        if (Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+            new PlayTimePlaceholder(this, this.timeManager, "varoxtime").register();
+            new PlayTimePlaceholder(this, this.timeManager, "spigotplaytime").register();
         }
     }
 }
