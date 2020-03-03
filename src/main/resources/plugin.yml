@@ -1,7 +1,8 @@
 name: SpigotPlaytime
-version: "0.3.1-RELEASE"
+version: "0.3.2-RELEASE"
 author: DevSnox
 main: me.devsnox.playtime.PlayTime
+softdepend: [PlaceholderAPI]
 commands:
   playtime:
     aliases: [pt, spielstunden, st, varoxtime, vt]
